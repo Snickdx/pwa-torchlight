@@ -1,26 +1,27 @@
 {
-  "name": "light",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@material-ui/core": "^1.1.0",
-    "live-server-https": "0.0.2",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-scripts": "1.1.4",
-    "workbox-cli": "^3.2.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "homepage": "https://snickdx.me/light",
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
-  "main": "index.js",
-  "devDependencies": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+	"name": "light",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@material-ui/core": "^1.1.0",
+		"live-server-https": "0.0.2",
+		"react": "^16.4.0",
+		"react-dom": "^16.4.0",
+		"react-scripts": "1.1.4",
+		"workbox-cli": "^3.2.0"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"build-sw":"workbox generateSW workbox-config.js",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"homepage": "https://snickdx.me/light",
+	"description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+	"main": "index.js",
+	"devDependencies": {},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
 }

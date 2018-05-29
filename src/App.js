@@ -41,7 +41,7 @@ class App extends Component {
 		track: null
 	};
 	
-	setupPhotoState = async () =>{
+	getTrack = async () =>{
 		if('mediaDevices' in navigator) {
 			const devices = await navigator.mediaDevices.enumerateDevices();
 			const cameras = devices.filter((device) => device.kind === 'videoinput');
@@ -49,44 +49,49 @@ class App extends Component {
 			if (cameras.length === 0) {
 				throw new UserException("no devices detected!");
 			}
-			const camera = cameras[cameras.length - 1];
 			
-			// Create stream and get video track
 			const stream = await navigator.mediaDevices.getUserMedia({
 				video: {
-					deviceId: camera.deviceId,
+					deviceId: cameras[cameras.length - 1].deviceId,
 					facingMode: ['user', 'environment'],
 					height: {ideal: 1080},
 					width: {ideal: 1920}
 				}
 			});
 			
-			this.setState({"track":stream.getVideoTracks()[0]});
-			
-			// const photoCapabilities = await (new ImageCapture(this.state.track)).getPhotoCapabilities();
-			
+			return stream.getVideoTracks()[0];
 		}
 	};
 	
 	constructor(props){
 		super(props);
 		this.classes = props.classes;
-		this.setupPhotoState();
+		this.getTrack().then(track=>{
+			this.setState({"track":track});
+		})
 	}
 	
 	handleChange = name => event => {
 		this.setState({ [name]: event.target.checked });
-		try{
-			if( 'mediaDevices' in navigator){
-				this.state.track.applyConstraints({
-					advanced: [{torch: true}]
-				});
-			}else{
-				alert("Camera Flash Not Supported!");
+		if(event.target.checked){
+			try{
+				if( 'mediaDevices' in navigator){
+					this.state.track.applyConstraints({
+						advanced: [{torch: true}]
+					});
+				}else{
+					alert("Camera Flash Not Supported!");
+				}
+			}catch(e){
+				console.log(e);
 			}
-		}catch(e){
-			console.log(e);
+		}else{
+			this.state.track.stop();
+			this.getTrack().then(track=>{
+				this.setState({"track":track});
+			})
 		}
+		
 	};
 	
 	
